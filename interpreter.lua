@@ -6,6 +6,7 @@ run_program = function()
 		here():pic();
 		lim_steps = 256;
 		ship_start_pos();
+		draw_space_a();
 		ways(here()):disable();
 		draw_map_a();
 		ship_orientation = "up";

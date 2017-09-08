@@ -65,7 +65,7 @@ local function forwerts()
 		--	print(c, r, s);
 		show_command_cur(r, s);
 		if map[ship_pos_y][ship_pos_x] == "D" then
-			mission_stage = "Препятствие";
+			mission_stage = "Опасность";
 			timer:stop();
 			walkout();
 			return;
@@ -140,6 +140,10 @@ local function forwerts()
 		if drop_goods then
 			timer:stop()
 			mission_stage = "Граница поля";
+			walkout();
+		else
+			timer:stop()
+			mission_stage = "Промах";
 			walkout();
 		end;
 		timer:stop()

@@ -185,7 +185,6 @@ do_drop_conteiner = function()
 	elseif map[ship_pos_y][ship_pos_x] == "S" then
 		mission_stage = "Двойная отгрузка";
 	else
-		mission_stage = "Промах";
 		drop_goods = false;
 	end;
 end;

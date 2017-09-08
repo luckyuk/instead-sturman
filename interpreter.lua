@@ -129,29 +129,31 @@ do_move_forward = function()
 		turn_flag = true;
 		animation_counter = 0;
 		local mov_x, mov_y = 0, 0;
+		snd.play("sfx/fvd.ogg")
 	if ship_orientation == "up" then
 		ship_pos_y = ship_pos_y - 1;
-		mov_x, mov_y = 0, -12;
+		mov_x, mov_y = 0, -32;
 	elseif ship_orientation == "down" then
 		ship_pos_y = ship_pos_y + 1;
-		mov_x, mov_y = 0, 12;
+		mov_x, mov_y = 0, 32;
 	elseif ship_orientation == "left" then
 		ship_pos_x = ship_pos_x - 1;
-		mov_x, mov_y = -12, 0;
+		mov_x, mov_y = -32, 0;
 	elseif ship_orientation == "right" then
 		ship_pos_x = ship_pos_x + 1;
-		mov_x, mov_y = 12, 0;
+		mov_x, mov_y = 32, 0;
 	end;
 	if ship_pos_x < 1 or ship_pos_x > 16 or ship_pos_y < 1 or ship_pos_y > 16 then
 		ship_on_desc = false;
 	else
 		draw_space();
-		ship:draw(canvas_map, ship_pos_x * 12 - 6, ship_pos_y * 12 - 6);
+		ship:draw(canvas_map, ship_pos_x * 32 - 29, ship_pos_y * 32 - 29);
 	end;
 	
 end;
 
 do_thurn_clockwise = function()
+	snd.play("sfx/snd_sub.ogg")
 	if ship_orientation == "up" then
 		ship_orientation = "right";
 	elseif ship_orientation == "right" then
@@ -164,6 +166,7 @@ do_thurn_clockwise = function()
 end;
 
 do_thurn_contrclockwise = function()
+	snd.play("sfx/snd_sub.ogg")
 	if ship_orientation == "up" then
 		ship_orientation = "left";
 	elseif ship_orientation == "left" then
@@ -177,14 +180,16 @@ end;
 
 do_drop_conteiner = function()
 	if map[ship_pos_y][ship_pos_x] == "C" then
+		snd.play("sfx/drop.ogg")
 		map[ship_pos_y][ship_pos_x] = "S";
 		draw_map();
 		draw_space();
 		draw_base_a();
-		ship:draw(canvas_map, ship_pos_x * 12 - 6, ship_pos_y * 12 - 6);
+		ship:draw(canvas_map, ship_pos_x * 32 - 29, ship_pos_y * 32 - 29);
 	elseif map[ship_pos_y][ship_pos_x] == "S" then
 		mission_stage = "Двойная отгрузка";
 	else
+		snd.play("sfx/coll.ogg")
 		drop_goods = false;
 	end;
 end;

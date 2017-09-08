@@ -3,6 +3,7 @@ require "keys"
 require "click"
 require "fonts"
 require "timer"
+require "snd"
 
 dofile "interpreter.lua"
 dofile "maps.lua"
@@ -66,6 +67,7 @@ local function forwerts()
 		show_command_cur(r, s);
 		if map[ship_pos_y][ship_pos_x] == "D" then
 			mission_stage = "Опасность";
+			snd.play("sfx/coll.ogg")
 			timer:stop();
 			walkout();
 			return;
@@ -74,6 +76,7 @@ local function forwerts()
 			if ship_orientation == "up" or ship_orientation == "down" then
 				if not (c == "→" or c == "←") then
 					mission_stage = "Препятствие";
+					snd.play("sfx/coll.ogg")
 					timer:stop();
 					walkout();
 					return;
@@ -84,6 +87,7 @@ local function forwerts()
 			if ship_orientation == "left" or ship_orientation == "right" then
 				if not (c == "→" or c == "←") then
 					mission_stage = "Препятствие";
+					snd.play("sfx/coll.ogg")
 					timer:stop();
 					walkout();
 					return;
@@ -140,6 +144,7 @@ local function forwerts()
 		if drop_goods then
 			timer:stop()
 			mission_stage = "Граница поля";
+			snd.play("sfx/coll.ogg")
 			walkout();
 		else
 			timer:stop()
@@ -447,59 +452,102 @@ draw_register = function(i,j,w)
 end;
 
 make_ship = function()
-	local f = sprite.fnt('themes/default/PressStart2P.ttf', 14);
-	ship = sprite.new (12,12);
-	f:text("O", "sandybrown"):draw(ship, 1, 0);
-	f:text("¤", "navy"):compose(ship, 0, 1);
+--	local f = sprite.fnt('themes/default/PressStart2P.ttf', 30);
+	ship = sprite.new (32,32);
+--	f:text("O", "sandybrown"):draw(ship, 1, 0);
+--	f:text("¤", "navy"):compose(ship, 0, 1);
+	s3:draw(ship, 0, 0);
+	s4:draw(ship, 16, 0);
+	s1:draw(ship, 0, 16);
+	s2:draw(ship, 16, 16);
 end;
 
 draw_items = function()
-	canvas_map = sprite.new "box:204x204, lawngreen";
-	spr_map = sprite.new "box:192x192, lightblue";
-	local f = sprite.fnt('themes/default/PressStart2P.ttf', 10);
+	canvas_map = sprite.new "box:518x518, lawngreen";
+	spr_map = sprite.new "box:512x512, lightblue";
+	local f = sprite.fnt('themes/default/PressStart2P.ttf', 32);
 
-	base = sprite.new "box:12x12, magenta";
-	f:text("P", "yellow"):draw(base, 1, 1);
+	base = sprite.new "box:32x32, magenta";
+--	f:text("P", "yellow"):draw(base, 1, 1);
+	s5:draw(base, 0, 0);
+	s6:draw(base, 16, 0);
+	s7:draw(base, 0, 16);
+	s8:draw(base, 16, 16);
+	
+	camp = sprite.new "box:32x32, white";
+--	f:text("г", "red"):draw(camp, 1, 1);
+	h7:draw(camp, 0, 0);
+	f1:draw(camp, 16, 0);
+	w1:draw(camp, 0, 16);
+	s0:draw(camp, 16, 16);
+	
+	camp_catch = sprite.new "box:32x32, white";
+--	f:text("г", "green"):draw(camp_catch, 1, 1);
+	h7:draw(camp_catch, 0, 0);
+	f1:draw(camp_catch, 16, 0);
+	w1:draw(camp_catch, 0, 16);
+	t1:draw(camp_catch, 16, 16);
 
-	camp = sprite.new "box:12x12, white";
-	f:text("г", "red"):draw(camp, 1, 1);
-
-	camp_catch = sprite.new "box:12x12, white";
-	f:text("г", "green"):draw(camp_catch, 1, 1);
-
-	empt = sprite.new "box:12x12, blue";
-	local dot = sprite.new "box:2x2, yellow";
+	empt = sprite.new "box:32x32, blue";
+--	local dot = sprite.new "box:2x2, yellow";
+--[[
 	dot:draw(empt, 0, 0);
 	dot:draw(empt, 4, 0);
 	dot:draw(empt, 8, 0);
 	dot:draw(empt, 0, 4);
 	dot:draw(empt, 0, 8);
+--]]
+	e1:draw(empt, 0, 0);
+	e2:draw(empt, 16, 0);
+	e3:draw(empt, 0, 16);
+	e4:draw(empt, 16, 16);
 
-	danger = sprite.new "box:12x12, blue";
-	local red_kvad = sprite.new "box:11x11, red";
-	red_kvad:draw(danger, 1, 1);
+	danger = sprite.new "box:32x32, blue";
+--	local red_kvad = sprite.new "box:30x30, red";
+--	red_kvad:draw(danger, 1, 1);
+	d1:draw(danger, 0, 0);
+	d2:draw(danger, 16, 0);
+	d3:draw(danger, 0, 16);
+	d4:draw(danger, 16, 16);
 
-	h_way = sprite.new "box:12x12, yellow";
-	local h_line = sprite.new "box:10x2, magenta";
-	h_line:draw(h_way, 1, 5);
+	h_way = sprite.new "box:32x32, yellow";
+--	local h_line = sprite.new "box:10x2, magenta";
+--	h_line:draw(h_way, 1, 5);
+	h6:draw(h_way, 0, 0);
+	h6:draw(h_way, 16, 0);
+	h5:draw(h_way, 0, 16);
+	h5:draw(h_way, 16, 16);
 
-	w_way = sprite.new "box:12x12, yellow";
-	local w_line = sprite.new "box:2x10, magenta";
-	w_line:draw(w_way, 5, 1);
+	w_way = sprite.new "box:32x32, yellow";
+--	local w_line = sprite.new "box:2x10, magenta";
+--	w_line:draw(w_way, 5, 1);
+	w4:draw(w_way, 0, 0);
+	w6:draw(w_way, 16, 0);
+	w4:draw(w_way, 0, 16);
+	w6:draw(w_way, 16, 16);
+	
+	turn_left = sprite.new "box:32x32, green";
+--	f:text("◀", "black"):draw(turn_left, 1, 2);
+	g2:draw(turn_left, 0, 0);
+	g4:draw(turn_left, 16, 0);
+	g1:draw(turn_left, 0, 16);
+	g3:draw(turn_left, 16, 16);
 
-	turn_left = sprite.new "box:12x12, green";
-	f:text("◀", "black"):draw(turn_left, 1, 2);
-
-	turn_right = sprite.new "box:12x12, green";
-	f:text("▶", "black"):draw(turn_right, 2, 2);
+	turn_right = sprite.new "box:32x32, green";
+--	f:text("▶", "black"):draw(turn_right, 2, 2);
+	g6:draw(turn_right, 0, 0);
+	g8:draw(turn_right, 16, 0);
+	g5:draw(turn_right, 0, 16);
+	g7:draw(turn_right, 16, 16);
+	
 end;
 
 draw_map = function()
 local locmap = "";
 	for i = 1, 16 do
 		for j = 1, 16 do
-			local l = i * 12 - 12;
-			local k = j * 12 - 12;
+			local l = i * 32 - 32;
+			local k = j * 32 - 32;
 			locmap = map[j][i];
 			if locmap == "P" then base:draw(spr_map, l, k);
 			elseif locmap == "C" then camp:draw(spr_map, l, k);
@@ -517,7 +565,7 @@ local locmap = "";
 end;
 
 draw_space = function()
-	spr_map:draw(canvas_map, 6, 6);
+	spr_map:draw(canvas_map, 3, 3);
 end;
 
 function init()

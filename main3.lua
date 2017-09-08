@@ -58,104 +58,113 @@ map = {
 	};
 }
 
+local function forwerts()
+	if drop_goods and ship_on_desc then
+		local c, r, s = main_stack[1][1], main_stack[1][2], main_stack[1][3];
+		table.remove(main_stack, 1);
+		--	print(c, r, s);
+		show_command_cur(r, s);
+		if map[ship_pos_y][ship_pos_x] == "D" then
+			mission_stage = "Препятствие";
+			timer:stop();
+			walkout();
+			return;
+		end;
+		if map[ship_pos_y][ship_pos_x] == "H" then
+			if ship_orientation == "up" or ship_orientation == "down" then
+				if not (c == "→" or c == "←") then
+					mission_stage = "Препятствие";
+					timer:stop();
+					walkout();
+					return;
+				end;
+			end;
+		end;
+		if map[ship_pos_y][ship_pos_x] == "W" then
+			if ship_orientation == "left" or ship_orientation == "right" then
+				if not (c == "→" or c == "←") then
+					mission_stage = "Препятствие";
+					timer:stop();
+					walkout();
+					return;
+				end;
+			end;
+		end;
+		if map[ship_pos_y][ship_pos_x] == "◀" and turn_flag then
+			turn_flag = false;
+			do_thurn_contrclockwise();
+		end;
+		if map[ship_pos_y][ship_pos_x] == "▶" and turn_flag then
+			turn_flag = false;
+			do_thurn_clockwise();
+		end;
+
+		if c == "↑" then
+			do_move_forward();
+			--	print (#main_stack);
+		elseif c == "→" then
+			do_thurn_clockwise();
+		elseif c == "←" then
+			do_thurn_contrclockwise();
+		elseif c == "*" then
+			do_drop_conteiner();
+		elseif c == "0" then
+			if #sub0_stack > 0 then
+				for i = #sub0_stack, 1, -1 do
+					table.insert(main_stack, 1, sub0_stack[i])
+				end;
+				return true; -- again
+			else
+				return;
+			end;
+		elseif c == "1" then
+			if #sub1_stack > 0 then
+				for i = #sub1_stack, 1, -1 do
+					table.insert(main_stack, 1, sub1_stack[i])
+				end;
+				return true; -- again;
+			else
+				return;
+			end;
+		elseif c == "2" then
+			if #sub2_stack > 0 then
+				for i = #sub2_stack, 1, -1 do
+					table.insert(main_stack, 1, sub2_stack[i])
+				end;
+				return true; -- again;
+			else
+				return;
+			end;
+		end;
+	else
+		if drop_goods then
+			timer:stop()
+			mission_stage = "Граница поля";
+			walkout();
+		end;
+		timer:stop()
+		return;
+	end;
+end
+
 game.timer = function(s)
+	local function halt()
+		-- halt logic
+	end
 	if animation_counter < 24 then
 		animation_counter = animation_counter + 1;
 		play_animation();
-		goto halt;
+		halt();
+		return;
 	elseif #main_stack > 0 then
-		::forwerts::
-		if drop_goods and ship_on_desc then
-			local c, r, s = main_stack[1][1], main_stack[1][2], main_stack[1][3];
-			table.remove(main_stack, 1);
-	--		print(c, r, s);
-			show_command_cur(r, s);
-			if map[ship_pos_y][ship_pos_x] == "D" then
-				mission_stage = "Препятствие";
-				timer:stop();
-				walkout();
-				goto halt;
-			end;
-			if map[ship_pos_y][ship_pos_x] == "H" then
-				if ship_orientation == "up" or ship_orientation == "down" then
-					if not (c == "→" or c == "←") then
-						mission_stage = "Препятствие";
-						timer:stop();
-						walkout();
-						goto halt;
-					end;
-				end;
-			end;
-			if map[ship_pos_y][ship_pos_x] == "W" then
-				if ship_orientation == "left" or ship_orientation == "right" then
-					if not (c == "→" or c == "←") then
-						mission_stage = "Препятствие";
-						timer:stop();
-						walkout();
-						goto halt;
-					end;
-				end;
-			end;
-			if map[ship_pos_y][ship_pos_x] == "◀" and turn_flag then
-				turn_flag = false;
-				do_thurn_contrclockwise();
-			end;
-			if map[ship_pos_y][ship_pos_x] == "▶" and turn_flag then
-				turn_flag = false;
-				do_thurn_clockwise();
-			end;
-			
-			if c == "↑" then
-				do_move_forward();
---				print (#main_stack);
-			elseif c == "→" then
-				do_thurn_clockwise();
-			elseif c == "←" then
-				do_thurn_contrclockwise();
-			elseif c == "*" then
-				do_drop_conteiner();
-			elseif c == "0" then
-				if #sub0_stack > 0 then
-					for i = #sub0_stack, 1, -1 do
-						table.insert(main_stack, 1, sub0_stack[i])
-					end;
-					goto forwerts;
-				else
-					goto halt;
-				end;
-			elseif c == "1" then
-				if #sub1_stack > 0 then
-					for i = #sub1_stack, 1, -1 do
-						table.insert(main_stack, 1, sub1_stack[i])
-					end;
-					goto forwerts;
-				else
-					goto halt;
-				end;
-			elseif c == "2" then
-				if #sub2_stack > 0 then
-					for i = #sub2_stack, 1, -1 do
-						table.insert(main_stack, 1, sub2_stack[i])
-					end;
-					goto forwerts;
-				else
-					goto halt;
-				end;
-			end;
-		else
-			if drop_goods then
-				timer:stop()
-				mission_stage = "Граница поля";
-				walkout();
-			end;
-			timer:stop()
-			goto halt;
-		end;
+		while forwerts() do
+		-- nothing to do
+		end
+		halt()
 	else
 		walkout();
 		camps_calc();
 	end;
-	::halt::
 end;
 
 set_map = function(m)
@@ -171,10 +180,10 @@ local camps_incomplete = 0;
 local camps_complete = 0;
 	for i = 1, 16 do
 		for j = 1, 16 do
-			if map[i][j] == "C" then 
+			if map[i][j] == "C" then
 				camps_incomplete = camps_incomplete + 1;
 			end;
-			if map[i][j] == "S" then 
+			if map[i][j] == "S" then
 				camps_complete = camps_complete + 1;
 			end;
 		end;
@@ -201,7 +210,7 @@ end;
 ship_start_pos = function()
 	for i = 1, 16 do
 		for j = 1, 16 do
-			if map[i][j] == "P" then 
+			if map[i][j] == "P" then
 				ship_pos_x = j;
 				ship_pos_y = i;
 				mission_stage = "Координаты^ВПП: "..ship_pos_x.." "..ship_pos_y;
@@ -261,13 +270,13 @@ cur_up = function()
 	if active_slot == 1 and active_register == 1 and shift_register_P > 0 then
 		shift_register_P = shift_register_P - 1;
 	end;
-	if active_register >= 2 then 
+	if active_register >= 2 then
 		active_register = active_register - 1;
 	end;
 end;
 
 next_register = function()
-	if active_slot == 1 then 
+	if active_slot == 1 then
 		if active_register == 21 then
 			shift_register_P = shift_register_P + 1;
 		end;
@@ -289,13 +298,13 @@ cur_down = function()
 end;
 
 cur_left = function()
-	if active_slot >= 2 then 
+	if active_slot >= 2 then
 		active_slot = active_slot - 1;
 	end;
 end;
 
 cur_right = function()
-	if active_slot <= 3 then 
+	if active_slot <= 3 then
 		active_slot = active_slot + 1;
 	end;
 end;
@@ -444,39 +453,39 @@ draw_items = function()
 	canvas_map = sprite.new "box:204x204, lawngreen";
 	spr_map = sprite.new "box:192x192, lightblue";
 	local f = sprite.fnt('themes/default/PressStart2P.ttf', 10);
-	
+
 	base = sprite.new "box:12x12, magenta";
 	f:text("P", "yellow"):draw(base, 1, 1);
-	
+
 	camp = sprite.new "box:12x12, white";
 	f:text("г", "red"):draw(camp, 1, 1);
-	
+
 	camp_catch = sprite.new "box:12x12, white";
 	f:text("г", "green"):draw(camp_catch, 1, 1);
-	
+
 	empt = sprite.new "box:12x12, blue";
 	local dot = sprite.new "box:2x2, yellow";
-	dot:draw(empt, 0, 0); 
-	dot:draw(empt, 4, 0); 
-	dot:draw(empt, 8, 0); 
-	dot:draw(empt, 0, 4); 
+	dot:draw(empt, 0, 0);
+	dot:draw(empt, 4, 0);
+	dot:draw(empt, 8, 0);
+	dot:draw(empt, 0, 4);
 	dot:draw(empt, 0, 8);
-	
+
 	danger = sprite.new "box:12x12, blue";
 	local red_kvad = sprite.new "box:11x11, red";
 	red_kvad:draw(danger, 1, 1);
-	
+
 	h_way = sprite.new "box:12x12, yellow";
 	local h_line = sprite.new "box:10x2, magenta";
 	h_line:draw(h_way, 1, 5);
-	
+
 	w_way = sprite.new "box:12x12, yellow";
-	local w_line = sprite.new "box:2x10, magenta";	
+	local w_line = sprite.new "box:2x10, magenta";
 	w_line:draw(w_way, 5, 1);
-	
+
 	turn_left = sprite.new "box:12x12, green";
 	f:text("◀", "black"):draw(turn_left, 1, 2);
-	
+
 	turn_right = sprite.new "box:12x12, green";
 	f:text("▶", "black"):draw(turn_right, 2, 2);
 end;
@@ -531,7 +540,7 @@ function start()
 	make_all_sprites();
 	draw_map_a();
 end;
-	
+
 obj {
 	nam = "deck",
 	dsc = function(s)
@@ -583,104 +592,104 @@ obj {
 }
 
 obj {
-	nam = "btn_0",	
+	nam = "btn_0",
 	act = function(s) set_command("0"); end,
 }
 
 obj {
-	nam = "btn_1",	
+	nam = "btn_1",
 	act = function(s) set_command("1"); end,
 }
 
 obj {
-	nam = "btn_2",	
+	nam = "btn_2",
 	act = function(s) set_command("2"); end,
 }
 
 obj {
-	nam = "btn_3",	
+	nam = "btn_3",
 	act = function(s) set_command("3"); end,
 }
 
 obj {
-	nam = "btn_4",	
+	nam = "btn_4",
 	act = function(s) set_command("4"); end,
 }
 
 obj {
-	nam = "btn_5",	
+	nam = "btn_5",
 	act = function(s) set_command("5"); end,
 }
 
 obj {
-	nam = "btn_6",	
+	nam = "btn_6",
 	act = function(s) set_command("6"); end,
 }
 
 obj {
-	nam = "btn_7",	
+	nam = "btn_7",
 	act = function(s) set_command("7"); end,
 }
 
 obj {
-	nam = "btn_8",	
+	nam = "btn_8",
 	act = function(s) set_command("8"); end,
 }
 
 obj {
-	nam = "btn_9",	
+	nam = "btn_9",
 	act = function(s) set_command("9"); end,
 }
 
 obj {
-	nam = "btn_d",	
+	nam = "btn_d",
 	act = function(s) set_command("*"); end,
 }
 
 obj {
-	nam = "btn_f",	
+	nam = "btn_f",
 	act = function(s) set_command("↑"); end,
 }
 
 obj {
-	nam = "btn_tl",	
+	nam = "btn_tl",
 	act = function(s) set_command("←"); end,
 }
 
 obj {
-	nam = "btn_tr",	
+	nam = "btn_tr",
 	act = function(s) set_command("→"); end,
 }
 
 obj {
-	nam = "arr_up",	
+	nam = "arr_up",
 	act = function(s) cur_up(); end,
 }
 
 obj {
-	nam = "arr_down",	
+	nam = "arr_down",
 	act = function(s) cur_down(); end,
 }
 
 obj {
-	nam = "arr_left",	
+	nam = "arr_left",
 	act = function(s) cur_left(); end,
 }
 
 obj {
-	nam = "arr_right",	
+	nam = "arr_right",
 	act = function(s) cur_right(); end,
 }
 
 obj {
-	nam = "btn_run",	
+	nam = "btn_run",
 	act = function(s)
 		run_program();
 	end,
 }
 
 obj {
-	nam = "btn_del",	
+	nam = "btn_del",
 	act = function(s) del_command(); end,
 }
 

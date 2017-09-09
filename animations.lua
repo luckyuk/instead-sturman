@@ -1,4 +1,5 @@
 declare {
+	a0 = sprite.new "pics/transp.gif",
 	a1 = sprite.new "pics/ang2.gif",
 	a2 = sprite.new "pics/ang3.gif",
 	a3 = sprite.new "pics/ang4.gif",
@@ -78,6 +79,7 @@ declare {
 	danger_a = sprite.new "box:96x96, black",
 	h_way_a = sprite.new "box:96x96, black",
 	w_way_a = sprite.new "box:96x96, black",
+	intro_a = sprite.new "box:512x256",
 	--
 	spr_ship = false,
 	spr_empty = false,
@@ -89,6 +91,7 @@ declare {
 	spr_right = false,
 	spr_vert = false,
 	spr_hor = false,
+	intro = false,
 };
 
 spr_ship = {
@@ -177,6 +180,25 @@ spr_hor = {
 	{e3, e4, e1, e2, e3, e4},
 }
 
+intro = {
+	{e1, e2, l3, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, e2, l3, a0, a0, a0, a0, a0, e1, l3, a0, a0, a0, a0},
+	{e3, e4, e3, e4, l3, a0, a0, a0, e3, e4, l3, a0, a0, a0, a0, a0, a0, a0, e3, e4, e3, e4, e3, l3, a0, a0, e3, e4, e3, e4, l3, a0},
+	{e1, e2, v1, e2, e1, l3, a0, e2, v2, e2, e1, e2, l3, e2, e1, l3, a0, e2, e1, e2, v1, e2, e1, e2, e1, e2, e1, v1, e1, e2, e1, e2},
+	{e3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, v1, e3, e4, e3, e4, l3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, e4},
+	{e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2},
+	{u2, e4, u2, e4, u2, e4, u2, u2, u2, e4, u2, e4, u2, e4, u2, u2, u2, e4, u2, e4, e3, e4, u2, e4, e3, u2, u2, e4, u2, e4, u2, e4},
+	{u2, e2, u2, e2, u2, e2, e1, u2, e1, e2, u2, e2, u2, e2, u2, e2, u2, e2, u2, u2, e1, u2, u2, e2, u2, e2, u2, e2, u2, e2, u2, e2},
+	{u2, e4, u2, e4, u2, e4, e3, u2, e3, e4, u2, u2, u2, e4, u2, e4, u2, e4, u2, e4, u2, e4, u2, e4, u2, e4, u2, e4, u2, u2, u2, e4},
+	{u2, e2, u2, e2, u2, e2, e1, u2, e1, e2, e1, e2, u2, e2, u2, u2, u2, e2, u2, e2, e1, e2, u2, e2, u2, u2, u2, e2, u2, e2, u2, e2},
+	{u2, u2, u2, u2, u2, e4, e3, u2, e3, e4, u2, u2, u2, e4, u2, e4, e3, e4, u2, e4, e3, e4, u2, e4, u2, e4, u2, e4, u2, e4, u2, e4},
+	{e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, v2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2},
+	{e3, e4, e3, e4, l2, e4, e3, e4, v1, e4, e3, e4, e3, e4, l2, u1, e3, e4, e3, l2, u1, e4, v2, e4, e3, e4, e3, e4, e3, e4, e3, e4},
+	{u1, e2, l2, u1, l1, u3, e1, e2, e1, e2, l2, u1, u1, u1, l1, a0, u3, e2, l2, l1, a0, u3, u1, u1, u1, e2, e1, v1, e1, e2, e1, e2},
+	{a0, u3, l1, a0, a0, a0, u3, e4, l2, u1, l1, a0, a0, a0, a0, a0, a0, u3, l1, a0, a0, a0, a0, a0, a0, u3, e3, e4, e3, l2, u1, u1},
+	{a0, a0, a0, a0, a0, a0, a0, u3, l1, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, u3, u1, u1, l1, a0, a0},
+	{a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0},
+}
+
 make_a_sprite = function(spr, spr_tabl)
 	local l, k;
 	for i = 1, #spr_tabl do
@@ -199,6 +221,7 @@ make_all_sprites = function()
 	make_a_sprite(thur_right_a, spr_right);
 	make_a_sprite(w_way_a, spr_vert);
 	make_a_sprite(h_way_a, spr_hor);
+	make_a_sprite(intro_a, intro);
 end;
 
 draw_map_a = function()

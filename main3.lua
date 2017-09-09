@@ -401,6 +401,8 @@ game.onkey = function(s, press, key)
 			return;
 		end;
 		return false;
+	else
+		return false;
 	end;
 end;
 
@@ -758,11 +760,74 @@ stat {
 
 room {
 	nam = "main",
+	disp = "Интро",
+	title = "",
+	{
+		ship_x = -48,
+		ship_y = 379,
+		autor =  " ",
+		pref = "",
+	},
+	timer = function(s)
+		if s.ship_x < 526 then
+			if s.ship_x > 140 then
+				s.autor = "L";
+			end;
+			if s.ship_x > 170 then
+				s.autor = "Lu";
+			end;
+			if s.ship_x > 200 then
+				s.autor = "Luc";
+			end;
+			if s.ship_x > 230 then
+				s.autor = "Luck";
+			end;
+			if s.ship_x > 260 then
+				s.autor = "Lucky";
+			end;
+			if s.ship_x > 290 then
+				s.autor = "Luckyu";
+			end;
+			if s.ship_x > 320 then
+				s.autor = "Luckyuk";
+			end;
+			s.ship_x = s.ship_x + 8;
+			s:pic();
+			s:dsc();
+		else
+			timer:stop();
+			walk("instr_0");
+		end;
+	end,
+	onenter = function(s)
+		timer:set(40);
+	end;
+	pic = function(s)
+		local f = sprite.fnt('themes/default/PressStart2P.ttf', 30);
+		local t = sprite.fnt('themes/default/PressStart2P.ttf', 30);
+		deep_sky:draw(canvas, 0, 0);
+		intro_a:compose(canvas, 0, 128);
+		t:text(s.autor, "yellow"):draw(canvas, 144, 380);
+		f:text(s.autor, "white"):draw(0, 0, 256, 15, canvas, 144, 380);
+		ship:draw(canvas, s.ship_x, s.ship_y);
+		return canvas;
+	end,
+	dsc = function(s)
+		s.pref = s.pref.."^";
+		if s.pref > "^^" then
+			s.pref = "";
+		end;
+		p (s.pref..[[Ремейк игры "Штурман" Олега Шамшуры]]);
+	end,
+}
+
+room {
+	nam = "instr_0",
 	disp = "***Инструкция***",
 	pic = function()
 		return deep_sky;
 	end,
-	dsc = "^"..[[Вы - курсант лётной академии. Ваша задача - освоить прокладку курса с помощью новейшего комплекса "Автопилот Высшего Сорта". Сокращённо - АВ0Сь. Проложите курс так, чтобы корабль смог избежать неприятностей и доставил груз на все базы. Корабль всегда стартует с посадочной площадки.]],
+	dsc = "^"..[[Вы - курсант лётной академии. Ваша задача - освоить прокладку курса с помощью новейшего комплекса "Автопилот Высшего Сорта". Сокращённо - АВ0Сь.]].."^^"..[[Проложите курс так, чтобы корабль смог избежать неприятностей и доставил груз на все базы. Корабль всегда стартует с посадочной площадки.]],
 	way = {"instr_1"},
 }
 

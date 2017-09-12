@@ -4,6 +4,7 @@ require "click"
 require "fonts"
 require "timer"
 require "snd"
+require "fmt"
 
 dofile "interpreter.lua"
 dofile "maps.lua"
@@ -458,10 +459,10 @@ make_ship = function()
 	ship = sprite.new (32,32);
 --	f:text("O", "sandybrown"):draw(ship, 1, 0);
 --	f:text("¤", "navy"):compose(ship, 0, 1);
-	s3:draw(ship, 0, 0);
-	s4:draw(ship, 16, 0);
-	s1:draw(ship, 0, 16);
-	s2:draw(ship, 16, 16);
+	s3:copy(ship, 0, 0);
+	s4:copy(ship, 16, 0);
+	s1:copy(ship, 0, 16);
+	s2:copy(ship, 16, 16);
 end;
 
 draw_items = function()
@@ -470,77 +471,77 @@ draw_items = function()
 	local f = sprite.fnt('themes/default/PressStart2P.ttf', 32);
 
 	base = sprite.new "box:32x32, magenta";
---	f:text("P", "yellow"):draw(base, 1, 1);
-	s5:draw(base, 0, 0);
-	s6:draw(base, 16, 0);
-	s7:draw(base, 0, 16);
-	s8:draw(base, 16, 16);
+--	f:text("P", "yellow"):copy(base, 1, 1);
+	s5:copy(base, 0, 0);
+	s6:copy(base, 16, 0);
+	s7:copy(base, 0, 16);
+	s8:copy(base, 16, 16);
 	
 	camp = sprite.new "box:32x32, white";
---	f:text("г", "red"):draw(camp, 1, 1);
-	h7:draw(camp, 0, 0);
-	f1:draw(camp, 16, 0);
-	w1:draw(camp, 0, 16);
-	s0:draw(camp, 16, 16);
+--	f:text("г", "red"):copy(camp, 1, 1);
+	h7:copy(camp, 0, 0);
+	f1:copy(camp, 16, 0);
+	w1:copy(camp, 0, 16);
+	s0:copy(camp, 16, 16);
 	
 	camp_catch = sprite.new "box:32x32, white";
---	f:text("г", "green"):draw(camp_catch, 1, 1);
-	h7:draw(camp_catch, 0, 0);
-	f1:draw(camp_catch, 16, 0);
-	w1:draw(camp_catch, 0, 16);
-	t1:draw(camp_catch, 16, 16);
+--	f:text("г", "green"):copy(camp_catch, 1, 1);
+	h7:copy(camp_catch, 0, 0);
+	f1:copy(camp_catch, 16, 0);
+	w1:copy(camp_catch, 0, 16);
+	t1:copy(camp_catch, 16, 16);
 
 	empt = sprite.new "box:32x32, blue";
 --	local dot = sprite.new "box:2x2, yellow";
 --[[
-	dot:draw(empt, 0, 0);
-	dot:draw(empt, 4, 0);
-	dot:draw(empt, 8, 0);
-	dot:draw(empt, 0, 4);
-	dot:draw(empt, 0, 8);
+	dot:copy(empt, 0, 0);
+	dot:copy(empt, 4, 0);
+	dot:copy(empt, 8, 0);
+	dot:copy(empt, 0, 4);
+	dot:copy(empt, 0, 8);
 --]]
-	e1:draw(empt, 0, 0);
-	e2:draw(empt, 16, 0);
-	e3:draw(empt, 0, 16);
-	e4:draw(empt, 16, 16);
+	e1:copy(empt, 0, 0);
+	e2:copy(empt, 16, 0);
+	e3:copy(empt, 0, 16);
+	e4:copy(empt, 16, 16);
 
 	danger = sprite.new "box:32x32, blue";
 --	local red_kvad = sprite.new "box:30x30, red";
---	red_kvad:draw(danger, 1, 1);
-	d1:draw(danger, 0, 0);
-	d2:draw(danger, 16, 0);
-	d3:draw(danger, 0, 16);
-	d4:draw(danger, 16, 16);
+--	red_kvad:copy(danger, 1, 1);
+	d1:copy(danger, 0, 0);
+	d2:copy(danger, 16, 0);
+	d3:copy(danger, 0, 16);
+	d4:copy(danger, 16, 16);
 
 	h_way = sprite.new "box:32x32, yellow";
 --	local h_line = sprite.new "box:10x2, magenta";
---	h_line:draw(h_way, 1, 5);
-	h6:draw(h_way, 0, 0);
-	h6:draw(h_way, 16, 0);
-	h5:draw(h_way, 0, 16);
-	h5:draw(h_way, 16, 16);
+--	h_line:copy(h_way, 1, 5);
+	h6:copy(h_way, 0, 0);
+	h6:copy(h_way, 16, 0);
+	h5:copy(h_way, 0, 16);
+	h5:copy(h_way, 16, 16);
 
 	w_way = sprite.new "box:32x32, yellow";
 --	local w_line = sprite.new "box:2x10, magenta";
---	w_line:draw(w_way, 5, 1);
-	w4:draw(w_way, 0, 0);
-	w6:draw(w_way, 16, 0);
-	w4:draw(w_way, 0, 16);
-	w6:draw(w_way, 16, 16);
+--	w_line:copy(w_way, 5, 1);
+	w4:copy(w_way, 0, 0);
+	w6:copy(w_way, 16, 0);
+	w4:copy(w_way, 0, 16);
+	w6:copy(w_way, 16, 16);
 	
 	turn_left = sprite.new "box:32x32, green";
---	f:text("◀", "black"):draw(turn_left, 1, 2);
-	g2:draw(turn_left, 0, 0);
-	g4:draw(turn_left, 16, 0);
-	g1:draw(turn_left, 0, 16);
-	g3:draw(turn_left, 16, 16);
+--	f:text("◀", "black"):copy(turn_left, 1, 2);
+	g2:copy(turn_left, 0, 0);
+	g4:copy(turn_left, 16, 0);
+	g1:copy(turn_left, 0, 16);
+	g3:copy(turn_left, 16, 16);
 
 	turn_right = sprite.new "box:32x32, green";
---	f:text("▶", "black"):draw(turn_right, 2, 2);
-	g6:draw(turn_right, 0, 0);
-	g8:draw(turn_right, 16, 0);
-	g5:draw(turn_right, 0, 16);
-	g7:draw(turn_right, 16, 16);
+--	f:text("▶", "black"):copy(turn_right, 2, 2);
+	g6:copy(turn_right, 0, 0);
+	g8:copy(turn_right, 16, 0);
+	g5:copy(turn_right, 0, 16);
+	g7:copy(turn_right, 16, 16);
 	
 end;
 
@@ -551,15 +552,15 @@ local locmap = "";
 			local l = i * 32 - 32;
 			local k = j * 32 - 32;
 			locmap = map[j][i];
-			if locmap == "P" then base:draw(spr_map, l, k);
-			elseif locmap == "C" then camp:draw(spr_map, l, k);
-			elseif locmap == "S" then camp_catch:draw(spr_map, l, k);
-			elseif locmap == "D" then danger:draw(spr_map, l, k);
-			elseif locmap == "H" then h_way:draw(spr_map, l, k);
-			elseif locmap == "W" then w_way:draw(spr_map, l, k);
-			elseif locmap == "◀" then turn_left:draw(spr_map, l, k);
-			elseif locmap == "▶" then turn_right:draw(spr_map, l, k);
-			else empt:draw(spr_map, l, k);
+			if locmap == "P" then base:copy(spr_map, l, k);
+			elseif locmap == "C" then camp:copy(spr_map, l, k);
+			elseif locmap == "S" then camp_catch:copy(spr_map, l, k);
+			elseif locmap == "D" then danger:copy(spr_map, l, k);
+			elseif locmap == "H" then h_way:copy(spr_map, l, k);
+			elseif locmap == "W" then w_way:copy(spr_map, l, k);
+			elseif locmap == "◀" then turn_left:copy(spr_map, l, k);
+			elseif locmap == "▶" then turn_right:copy(spr_map, l, k);
+			else empt:copy(spr_map, l, k);
 			--else f:text(locmap, "lightgreen"):draw(spr_map, l, k);
 			end;
 		end;
@@ -567,7 +568,7 @@ local locmap = "";
 end;
 
 draw_space = function()
-	spr_map:draw(canvas_map, 3, 3);
+	spr_map:copy(canvas_map, 3, 3);
 end;
 
 function init()
@@ -766,7 +767,7 @@ room {
 		ship_x = -48,
 		ship_y = 379,
 		autor =  " ",
-		pref = "",
+		postf = "",
 	},
 	timer = function(s)
 		if s.ship_x < 526 then
@@ -800,24 +801,36 @@ room {
 		end;
 	end,
 	onenter = function(s)
-		timer:set(40);
+		timer:set(30);
 	end;
 	pic = function(s)
 		local f = sprite.fnt('themes/default/PressStart2P.ttf', 30);
 		local t = sprite.fnt('themes/default/PressStart2P.ttf', 30);
-		deep_sky:draw(canvas, 0, 0);
-		intro_a:compose(canvas, 0, 128);
+		deep_sky:copy(canvas, 0, 0);
+--		intro_a:compose(canvas, 0, 128);
+		finish_a:draw(canvas, 0, 128);
 		t:text(s.autor, "yellow"):draw(canvas, 144, 380);
 		f:text(s.autor, "white"):draw(0, 0, 256, 15, canvas, 144, 380);
-		ship:draw(canvas, s.ship_x, s.ship_y);
+		ship:copy(canvas, s.ship_x, s.ship_y);
 		return canvas;
 	end,
 	dsc = function(s)
-		s.pref = s.pref.."^";
-		if s.pref > "^^" then
-			s.pref = "";
+		if s.postf == "" then
+			s.postf = ".";
+		elseif s.postf == "." then
+			s.postf = "..";
+		elseif  s.postf == ".." then
+			s.postf = "...";
+		elseif  s.postf == "..." then
+			s.postf = " ...";
+		elseif  s.postf == " ..." then
+			s.postf = "  ..";
+		elseif  s.postf == "  .." then
+			s.postf = "   .";
+		elseif s.postf == "   ." then
+			s.postf = "";
 		end;
-		p (s.pref..[[Ремейк игры "Штурман" Олега Шамшуры]]);
+		p ([[Ремейк игры "Штурман" Олега Шамшуры]]..s.postf);
 	end,
 }
 
@@ -1142,4 +1155,59 @@ room {
 		s:pic();
 	end,
 	obj = {"deck", "key_board"},
+	way = {"fin"},
+}
+
+room {
+	nam = "fin",
+	disp = "Конец игры",
+	title = "",
+	{
+		ship_x = 224,
+		ship_y = 560,
+		finish_x = 0,
+		finish_y = 320,
+		info_x = 0,
+		info_y = -40,
+		info =  "Поздравляем, из вас выйдет толк!",
+		postf = "",
+		time_line = 0,
+	},
+	timer = function(s)
+		if s.time_line < 36 then
+			s.ship_y = s.ship_y - 8;
+		end;
+		if s.time_line >= 36 and s.time_line < 68 then
+			s.finish_y = s.finish_y + 8;
+		end;
+		if s.time_line >= 68 and s.time_line < 120 then
+			s.info_y = s.info_y + 8;
+		end;
+		if s.time_line >= 120 and s.time_line < 192 then
+			s.ship_y = s.ship_y - 8;
+		end;
+			s:pic();
+			s:dsc();
+			s.time_line = s.time_line + 1;
+		if s.time_line > 192 then
+			timer:stop();
+			ways(s):enable();
+		end;
+	end,
+	onenter = function(s)
+		ways(s):disable();
+		timer:set(30);
+	end;
+	pic = function(s)
+		local f = sprite.fnt('themes/default/PressStart2P.ttf', 16);
+		local t = sprite.fnt('themes/default/PressStart2P.ttf', 16);
+		deep_sky:copy(canvas, 0, 0);
+		finish_a:draw(canvas, s.finish_x, s.finish_y);
+		t:text(s.info, "yellow"):draw(canvas, s.info_x, s.info_y);
+		f:text(s.info, "white"):draw(0, 0, 512, 8, canvas, s.info_x, s.info_y);
+		ship:copy(canvas, s.ship_x, s.ship_y);
+		return canvas;
+	end,
+	dsc = "",
+	way = {"main"},
 }

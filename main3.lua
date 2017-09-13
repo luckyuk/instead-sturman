@@ -68,7 +68,7 @@ local function forwerts()
 		show_command_cur(r, s);
 		if map[ship_pos_y][ship_pos_x] == "D" then
 			mission_stage = "Опасность";
-			snd.play("sfx/coll.ogg")
+			snd.play("sfx/6.ogg")
 			timer:stop();
 			walkout();
 			return;
@@ -77,7 +77,7 @@ local function forwerts()
 			if ship_orientation == "up" or ship_orientation == "down" then
 				if not (c == "→" or c == "←") then
 					mission_stage = "Препятствие";
-					snd.play("sfx/coll.ogg")
+					snd.play("sfx/6.ogg")
 					timer:stop();
 					walkout();
 					return;
@@ -88,7 +88,7 @@ local function forwerts()
 			if ship_orientation == "left" or ship_orientation == "right" then
 				if not (c == "→" or c == "←") then
 					mission_stage = "Препятствие";
-					snd.play("sfx/coll.ogg")
+					snd.play("sfx/6.ogg")
 					timer:stop();
 					walkout();
 					return;
@@ -145,7 +145,7 @@ local function forwerts()
 		if drop_goods then
 			timer:stop()
 			mission_stage = "Граница поля";
-			snd.play("sfx/coll.ogg")
+			snd.play("sfx/6.ogg")
 			walkout();
 		else
 			timer:stop()

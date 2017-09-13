@@ -129,7 +129,7 @@ do_move_forward = function()
 		turn_flag = true;
 		animation_counter = 0;
 		local mov_x, mov_y = 0, 0;
-		snd.play("sfx/fvd.ogg")
+		snd.play("sfx/1.ogg")
 	if ship_orientation == "up" then
 		ship_pos_y = ship_pos_y - 1;
 		mov_x, mov_y = 0, -32;
@@ -153,7 +153,7 @@ do_move_forward = function()
 end;
 
 do_thurn_clockwise = function()
-	snd.play("sfx/snd_sub.ogg")
+	snd.play("sfx/2.ogg")
 	if ship_orientation == "up" then
 		ship_orientation = "right";
 	elseif ship_orientation == "right" then
@@ -166,7 +166,7 @@ do_thurn_clockwise = function()
 end;
 
 do_thurn_contrclockwise = function()
-	snd.play("sfx/snd_sub.ogg")
+	snd.play("sfx/2.ogg")
 	if ship_orientation == "up" then
 		ship_orientation = "left";
 	elseif ship_orientation == "left" then
@@ -180,7 +180,7 @@ end;
 
 do_drop_conteiner = function()
 	if map[ship_pos_y][ship_pos_x] == "C" then
-		snd.play("sfx/drop.ogg")
+		snd.play("sfx/3.ogg")
 		map[ship_pos_y][ship_pos_x] = "S";
 		draw_map();
 		draw_space();
@@ -189,7 +189,7 @@ do_drop_conteiner = function()
 	elseif map[ship_pos_y][ship_pos_x] == "S" then
 		mission_stage = "Двойная отгрузка";
 	else
-		snd.play("sfx/coll.ogg")
+		snd.play("sfx/4.ogg")
 		drop_goods = false;
 	end;
 end;

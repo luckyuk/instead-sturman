@@ -1,4 +1,4 @@
--- $Штурман$
+-- $Name: Штурман$
 -- $Version: 0.1$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
@@ -122,14 +122,17 @@ local function forwerts()
 			do_drop_conteiner();
 		elseif c == "end_of_sub0" then
 			sub0_flag = 0;
+			return;
 		elseif c == "end_of_sub1" then
 			sub1_flag = 0;
+			return;
 		elseif c == "end_of_sub2" then
 			sub2_flag = 0;
+			return;
 		elseif c == "0" then
 			if sub0_flag == 0 then
 				if #sub0_stack > 0 then
-					table.insert(main_stack, {"end_of_sub0", r, s})
+					table.insert(main_stack, 1, {"end_of_sub0", r, s})
 					for i = #sub0_stack, 1, -1 do
 						table.insert(main_stack, 1, sub0_stack[i])
 					end;
@@ -148,7 +151,7 @@ local function forwerts()
 		elseif c == "1" then
 			if sub1_flag == 0 then
 				if #sub1_stack > 0 then
-					table.insert(main_stack, {"end_of_sub1", r, s})
+					table.insert(main_stack, 1, {"end_of_sub1", r, s})
 					for i = #sub1_stack, 1, -1 do
 						table.insert(main_stack, 1, sub1_stack[i])
 					end;
@@ -167,7 +170,7 @@ local function forwerts()
 		elseif c == "2" then
 			if sub2_flag == 0 then
 				if #sub2_stack > 0 then
-					table.insert(main_stack, {"end_of_sub2", r, s})
+					table.insert(main_stack, 1, {"end_of_sub2", r, s})
 					for i = #sub2_stack, 1, -1 do
 						table.insert(main_stack, 1, sub2_stack[i])
 					end;

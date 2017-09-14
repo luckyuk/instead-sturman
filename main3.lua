@@ -1,3 +1,8 @@
+-- $Штурман$
+-- $Version: 0.1$
+-- $Autor: kerbal$
+-- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
+
 require "sprite"
 require "keys"
 require "click"
@@ -853,8 +858,7 @@ room {
 		local f = sprite.fnt('themes/default/PressStart2P.ttf', 30);
 		local t = sprite.fnt('themes/default/PressStart2P.ttf', 30);
 		deep_sky:copy(canvas, 0, 0);
---		intro_a:compose(canvas, 0, 128);
-		finish_a:draw(canvas, 0, 128);
+		intro_a:draw(canvas, 0, 128);
 		t:text(s.autor, "yellow"):draw(canvas, 144, 380);
 		f:text(s.autor, "white"):draw(0, 0, 256, 15, canvas, 144, 380);
 		ship:copy(canvas, s.ship_x, s.ship_y);

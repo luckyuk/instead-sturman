@@ -25,6 +25,9 @@ global{
 	lim_steps = 256;
 	lim_P = 100;
 	lim_012 = 21;
+	sub0_flag = 0;
+	sub1_flag = 0;
+	sub2_flag = 0;
 	ship_orientation = "up";
 	drop_goods = true;
 	ship_on_desc = false;
@@ -113,31 +116,67 @@ local function forwerts()
 			do_thurn_contrclockwise();
 		elseif c == "*" then
 			do_drop_conteiner();
+		elseif c == "end_of_sub0" then
+			sub0_flag = 0;
+		elseif c == "end_of_sub1" then
+			sub1_flag = 0;
+		elseif c == "end_of_sub2" then
+			sub2_flag = 0;
 		elseif c == "0" then
-			if #sub0_stack > 0 then
-				for i = #sub0_stack, 1, -1 do
-					table.insert(main_stack, 1, sub0_stack[i])
+			if sub0_flag == 0 then
+				if #sub0_stack > 0 then
+					table.insert(main_stack, {"end_of_sub0", r, s})
+					for i = #sub0_stack, 1, -1 do
+						table.insert(main_stack, 1, sub0_stack[i])
+					end;
+					sub0_flag = 1;
+					return true; -- again
+				else
+					return;
 				end;
-				return true; -- again
 			else
+				timer:stop()
+				snd.play("sfx/7.ogg")
+				mission_stage = "Рекурсия";
+				walkout();
 				return;
 			end;
 		elseif c == "1" then
-			if #sub1_stack > 0 then
-				for i = #sub1_stack, 1, -1 do
-					table.insert(main_stack, 1, sub1_stack[i])
+			if sub1_flag == 0 then
+				if #sub1_stack > 0 then
+					table.insert(main_stack, {"end_of_sub1", r, s})
+					for i = #sub1_stack, 1, -1 do
+						table.insert(main_stack, 1, sub1_stack[i])
+					end;
+					sub1_flag = 1;
+					return true; -- again;
+				else
+					return;
 				end;
-				return true; -- again;
 			else
+				timer:stop()
+				snd.play("sfx/7.ogg")
+				mission_stage = "Рекурсия";
+				walkout();
 				return;
 			end;
 		elseif c == "2" then
-			if #sub2_stack > 0 then
-				for i = #sub2_stack, 1, -1 do
-					table.insert(main_stack, 1, sub2_stack[i])
+			if sub2_flag == 0 then
+				if #sub2_stack > 0 then
+					table.insert(main_stack, {"end_of_sub2", r, s})
+					for i = #sub2_stack, 1, -1 do
+						table.insert(main_stack, 1, sub2_stack[i])
+					end;
+					sub2_flag = 1;
+					return true; -- again;
+				else
+					return;
 				end;
-				return true; -- again;
 			else
+				timer:stop()
+				snd.play("sfx/7.ogg")
+				mission_stage = "Рекурсия";
+				walkout();
 				return;
 			end;
 		end;
@@ -206,6 +245,13 @@ local camps_complete = 0;
 		timer:stop()
 		mission_stage = "Осталось ещё "..camps_incomplete.." базы";
 	end;
+end;
+
+
+reset_recur_flags = function()
+	sub0_flag = 0;
+	sub1_flag = 0;
+	sub2_flag = 0;
 end;
 
 show_command_cur = function(r,s)

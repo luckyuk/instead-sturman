@@ -3,6 +3,7 @@ run_program = function()
 		here().cur_map();
 		draw_map();
 		draw_space();
+		reset_recur_flags();
 		here():pic();
 		lim_steps = 256;
 		ship_start_pos();

@@ -154,7 +154,6 @@ do_move_forward = function()
 end;
 
 do_thurn_clockwise = function()
-	snd.play("sfx/2.ogg")
 	if ship_orientation == "up" then
 		ship_orientation = "right";
 	elseif ship_orientation == "right" then
@@ -167,7 +166,6 @@ do_thurn_clockwise = function()
 end;
 
 do_thurn_contrclockwise = function()
-	snd.play("sfx/2.ogg")
 	if ship_orientation == "up" then
 		ship_orientation = "left";
 	elseif ship_orientation == "left" then

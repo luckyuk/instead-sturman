@@ -104,10 +104,12 @@ local function forwerts()
 		end;
 		if map[ship_pos_y][ship_pos_x] == "◀" and turn_flag then
 			turn_flag = false;
+			snd.play("sfx/2.ogg")
 			do_thurn_contrclockwise();
 		end;
 		if map[ship_pos_y][ship_pos_x] == "▶" and turn_flag then
 			turn_flag = false;
+			snd.play("sfx/2.ogg")
 			do_thurn_clockwise();
 		end;
 

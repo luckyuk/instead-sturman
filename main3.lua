@@ -9,7 +9,6 @@ require "click"
 require "fonts"
 require "timer"
 require "snd"
-require "fmt"
 
 dofile "interpreter.lua"
 dofile "maps.lua"
@@ -671,7 +670,6 @@ obj {
 
 obj {
 	nam = "[P]",
---	act = function(s) p "MainLine"; end,
 };
 
 obj {

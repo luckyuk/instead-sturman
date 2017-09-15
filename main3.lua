@@ -104,12 +104,10 @@ local function forwerts()
 		end;
 		if map[ship_pos_y][ship_pos_x] == "◀" and turn_flag then
 			turn_flag = false;
-			snd.play("sfx/2.ogg")
 			do_thurn_contrclockwise();
 		end;
 		if map[ship_pos_y][ship_pos_x] == "▶" and turn_flag then
 			turn_flag = false;
-			snd.play("sfx/2.ogg")
 			do_thurn_clockwise();
 		end;
 
@@ -117,8 +115,10 @@ local function forwerts()
 			do_move_forward();
 			--	print (#main_stack);
 		elseif c == "→" then
+			snd.play("sfx/2.ogg")
 			do_thurn_clockwise();
 		elseif c == "←" then
+			snd.play("sfx/2.ogg")
 			do_thurn_contrclockwise();
 		elseif c == "*" then
 			do_drop_conteiner();
@@ -375,7 +375,7 @@ cur_right = function()
 end;
 
 game.onkey = function(s, press, key)
-	if #objs(here()) > 0 then
+	if #objs(here()) > 1 then
 		if key == 'left' then
 			cur_left();
 			return;
@@ -916,7 +916,7 @@ room {
 	pic = function()
 		return canvas;
 	end,
-	obj = {"deck", "key_board"},
+	obj = {"deck"},
 }
 
 room {

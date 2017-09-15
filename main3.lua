@@ -1,5 +1,5 @@
 -- $Name: Штурман$
--- $Version: 0.2$
+-- $Version: 0.4.1$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
 
@@ -250,9 +250,10 @@ local camps_complete = 0;
 		timer:stop()
 		mission_stage = "Задание выполнено";
 		ways():enable();
+		instead.autosave();
 	else
 		timer:stop()
-		mission_stage = "Осталось ещё "..camps_incomplete.." базы";
+		mission_stage = "Остались ещё базы: "..camps_incomplete;
 	end;
 end;
 

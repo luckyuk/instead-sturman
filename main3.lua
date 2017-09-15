@@ -1,5 +1,5 @@
 -- $Name: Штурман$
--- $Version: 0.4.1$
+-- $Version: 0.4.2$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
 
@@ -1241,7 +1241,6 @@ room {
 			s.ship_y = s.ship_y - 8;
 		end;
 			s:pic();
-			s:dsc();
 			s.time_line = s.time_line + 1;
 		if s.time_line > 192 then
 			timer:stop();

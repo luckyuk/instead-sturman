@@ -1,5 +1,5 @@
 -- $Name: Штурман$
--- $Version: 0.4.2$
+-- $Version: 0.5$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
 
@@ -617,7 +617,6 @@ local locmap = "";
 			elseif locmap == "◀" then turn_left:copy(spr_map, l, k);
 			elseif locmap == "▶" then turn_right:copy(spr_map, l, k);
 			else empt:copy(spr_map, l, k);
-			--else f:text(locmap, "lightgreen"):draw(spr_map, l, k);
 			end;
 		end;
 	end;
@@ -636,7 +635,6 @@ function init()
 	slotter[2][0] = {};
 	slotter[3][0] = {};
 	slotter[4][0] = {};
-	place("mission_messages", me());
 end;
 
 function start()
@@ -650,7 +648,59 @@ function start()
 	draw_space();
 	make_all_sprites();
 	draw_map_a();
+	place("mission_messages", me());
 end;
+
+stat {
+	nam = "inf",
+	disp = "Меню:^",
+	obj = {"ret"},
+}:disable();
+
+menu {
+	nam = "inf1",
+	disp = "Основы управления^",
+	dsc = "{Основы управления}",
+	act = function()
+		return p ("Основные команды:^^".."["..'{$fnt psst, "white"|↑}'.."] ("..'{$fnt psst, "white"|+}'..") - перелет в следующий квадрат по курсу^^".."["..'{$fnt psst, "white"|←}'.."] ("..'{$fnt psst, "white"|<}'..") - поворот на месте влево^^".."["..'{$fnt psst, "white"|→}'.."] ("..'{$fnt psst, "white"|>}'..") - поворот на месте вправо^^".."["..'{$fnt psst, "magenta"|*}'.."] ("..'{$fnt psst, "white"|пробел}'..") - сброс груза^^".."["..'{$fnt psst, "red"|R}'.."] ("..'{$fnt psst, "white"|ввод}'..") - пуск программы^^".."["..'{$fnt psst, "cadetblue"|D}'.."] ("..'{$fnt psst, "white"|забой}'..") - удаление лишней команды^^");
+	end,
+};
+
+menu {
+	nam = "inf2",
+	disp = "Процедуры^",
+	dsc = "{Процедуры}",
+	act = function()
+		return p ([[Последовательности команд можно объединять в процедуры, чтобы не задавать несколько раз одно и то же.]].."^^"..[[Процедура задаётся в столбце ]].."["..'{$fnt psst, "red"|0}'.."], ["..'{$fnt psst, "yellow"|1}'.."] или ["..'{$fnt psst, "blue"|2}'.."], а в нужном месте программы достаточно нажать клавишу "..'{$fnt psst, "white"|0}'..", "..'{$fnt psst, "white"|1}'.." или "..'{$fnt psst, "white"|2}'..".^^");
+	end,
+};
+
+menu {
+	nam = "inf3",
+	disp = "Циклы^",
+	dsc = "{Циклы}",
+	act = function()
+		return p ([[Другой способ сокращения записи применяется к цепочкам одинаковых команд.]].."^^"..[[Нужно указать, сколько раз повторить необходимую команду. Такой приём называют циклом. Для этого используются клавиши ]].."["..'{$fnt psst, "lightgreen"|3}'.."], ".."["..'{$fnt psst, "lightgreen"|4}'.."], ".."["..'{$fnt psst, "lightgreen"|5}'.."], ".."["..'{$fnt psst, "lightgreen"|6}'.."], ^".."["..'{$fnt psst, "lightgreen"|7}'.."], ".."["..'{$fnt psst, "lightgreen"|8}'.."], ".."["..'{$fnt psst, "lightgreen"|9}'.."].^^"..[[Процедуры также можно повторять в цикле.]]);
+	end,
+};
+
+menu {
+	nam = "ret",
+	disp = "Назад^",
+	dsc = "{Назад}",
+	act = function()
+		walkout();
+	end,
+};
+
+menu {
+	nam = "hlp",
+	disp = "Помощь^",
+	dsc = "{Помощь}",
+	act = function()
+		walk("Help");
+	end,
+};
 
 obj {
 	nam = "deck",
@@ -891,6 +941,14 @@ room {
 room {
 	nam = "instr_0",
 	disp = "***Инструкция***",
+	onenter = function()
+		if not have("hlp") then
+			table.insert(objs(me()), 1, _'hlp');
+		end
+		if not have("inf") then
+			place("inf", me());
+		end;
+	end,
 	pic = function()
 		return deep_sky;
 	end,
@@ -902,11 +960,16 @@ room {
 	nam = "instr_1",
 	disp = "Основы управления",
 	title = "***Управление***",
+	onenter = function()
+		if 	#objs(_'inf') < 4 then
+			table.insert(objs(_'inf'), 1, _'inf1');
+		end;
+	end,
 	pic = function()
 		return deep_sky;
 	end,
 	dsc = "^"..[[Поведение корабля задаёт программа.
-	Она состоит из команд и пишется в стеке ]].."["..'{$fnt psst, "magenta"|P}'.."]^^".."Основные команды:^^".."["..'{$fnt psst, "white"|↑}'.."] (+) - перелет в следующий квадрат по курсу^^".."["..'{$fnt psst, "white"|←}'.."] (<) - поворот на месте влево^^".."["..'{$fnt psst, "white"|→}'.."] (>) - поворот на месте вправо^^".."["..'{$fnt psst, "magenta"|*}'.."] (пробел) - сброс груза^^".."["..'{$fnt psst, "red"|R}'.."] (ввод) - пуск программы^^".."["..'{$fnt psst, "cadetblue"|D}'.."] (забой) - удаление лишней команды^^",
+	Она состоит из команд и пишется в стеке ]].."["..'{$fnt psst, "magenta"|P}'.."]^^".."Основные команды:^^".."["..'{$fnt psst, "white"|↑}'.."] ("..'{$fnt psst, "white"|+}'..") - перелет в следующий квадрат по курсу^^".."["..'{$fnt psst, "white"|←}'.."] ("..'{$fnt psst, "white"|<}'..") - поворот на месте влево^^".."["..'{$fnt psst, "white"|→}'.."] ("..'{$fnt psst, "white"|>}'..") - поворот на месте вправо^^".."["..'{$fnt psst, "magenta"|*}'.."] ("..'{$fnt psst, "white"|пробел}'..") - сброс груза^^".."["..'{$fnt psst, "red"|R}'.."] ("..'{$fnt psst, "white"|ввод}'..") - пуск программы^^".."["..'{$fnt psst, "cadetblue"|D}'.."] ("..'{$fnt psst, "white"|забой}'..") - удаление лишней команды^^",
 	way = {"lesson_1"},
 }
 
@@ -914,6 +977,13 @@ room {
 	nam = "Anim",
 	disp = "",
 	title = "",
+	onenter = function(s)
+		_('hlp'):disable();
+	end;
+	onexit = function(s)
+		mission_stage = "";
+		_('hlp'):enable();
+	end;
 	pic = function()
 		return canvas;
 	end,
@@ -943,43 +1013,17 @@ room {
 	way = {"instr_2"},
 }
 
---[[
-room {
-	nam = "lesson_1",
-	disp = "Начать урок 1",
-	title = "Урок 1",
-	cur_map = function()
-		set_map(map_1);
-	end,
-	pic = function()
-		return canvas;
-	end,
-	pic = function()
-		return canvas_map;
-	end,
-	onenter = function(s)
-		ways(s):disable();
-		clear_slotter();
-		s.cur_map();
-		draw_map();
-		ship_start_pos();
-		draw_map_a();
-		draw_space();
-		s:pic();
-	end,
-	obj = {"deck", "key_board"},
-	way = {"instr_2"},
-}
---]]
-
 room {
 	nam = "instr_2",
 	disp = "Урок 2",
 	title = "***Процедуры***",
+	onenter = function()
+		table.insert(objs(_'inf'), 2, _'inf2');
+	end,
 	pic = function()
 		return deep_sky;
 	end,
-	dsc = "^"..[[Последовательности команд можно объединять в процедуры, чтобы не задавать несколько раз одно и то же.]].."^^"..[[Процедура задаётся в столбце ]].."["..'{$fnt psst, "red"|0}'.."], ".."["..'{$fnt psst, "yellow"|1}'.."] или ".."["..'{$fnt psst, "blue"|2}'.."], а в нужном месте программы достаточно нажать клавишу 0, 1 или 2.",
+	dsc = "^"..[[Последовательности команд можно объединять в процедуры, чтобы не задавать несколько раз одно и то же.]].."^^"..[[Процедура задаётся в столбце ]].."["..'{$fnt psst, "red"|0}'.."], ".."["..'{$fnt psst, "yellow"|1}'.."] или ".."["..'{$fnt psst, "blue"|2}'.."], а в нужном месте программы достаточно нажать клавишу {$fnt psst, 'white'|0}, {$fnt psst, 'white'|1} или {$fnt psst, 'white'|2}.",
 	way = {"lesson_2"},
 }
 
@@ -1010,6 +1054,9 @@ room {
 	nam = "instr_3",
 	disp = "Урок 3",
 	title = "***Циклы***",
+	onenter = function()
+		table.insert(objs(_'inf'), 3, _'inf3');
+	end,
 	pic = function()
 		return deep_sky;
 	end,
@@ -1263,4 +1310,24 @@ room {
 	end,
 	dsc = "",
 	way = {"main"},
+}
+
+room {
+	nam = "Help",
+	disp = "?",
+	title = "Справка",
+	onenter = function(s)
+		_('hlp'):disable();
+		_('inf'):enable();
+
+	end;
+	onexit = function(s)
+		_('hlp'):enable();
+		_('inf'):disable();
+
+	end;
+	pic = function()
+		return deep_sky;
+	end,
+	dsc = " ",
 }

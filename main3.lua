@@ -1,5 +1,5 @@
 -- $Name: Штурман$
--- $Version: 0.5$
+-- $Version: 0.6$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
 
@@ -24,6 +24,8 @@ danger = false, turn_left = false, turn_right = false, empt = false, main_stack 
 global{
 	active_slot = 1; -- 1 = "[P]", 2 = "[0]", 3 = "[1]", 4 = "[2]"
 	active_register = 1;
+	repeat_local = 24;
+	step_local = 4;
 	animation_counter = 24;
 	shift_register_P = 0;
 	lim_steps = 256;
@@ -209,12 +211,15 @@ game.timer = function(s)
 	local function halt()
 		-- halt logic
 	end
-	if animation_counter < 24 then
+--	if animation_counter < 24 then
+	if animation_counter < repeat_local then
 		animation_counter = animation_counter + 1;
 		play_animation();
 		halt();
 		return;
 	elseif #main_stack > 0 then
+--		repeat_local = animation_repeats;
+--		step_local = animation_step;
 		while forwerts() do
 		-- nothing to do
 		end
@@ -648,13 +653,16 @@ function start()
 	draw_space();
 	make_all_sprites();
 	draw_map_a();
+	place("hlp", me());
 	place("mission_messages", me());
+	place("anim_speed_menu", me());
+	place("inf", me());
 end;
 
 stat {
 	nam = "inf",
-	disp = "Меню:^",
-	obj = {"ret"},
+	disp = "Справка по командам управления:^",
+	obj = {"inf1", "inf2", "inf3", "ret"},
 }:disable();
 
 menu {
@@ -664,7 +672,7 @@ menu {
 	act = function()
 		return p ("Основные команды:^^".."["..'{$fnt psst, "white"|↑}'.."] ("..'{$fnt psst, "white"|+}'..") - перелет в следующий квадрат по курсу^^".."["..'{$fnt psst, "white"|←}'.."] ("..'{$fnt psst, "white"|<}'..") - поворот на месте влево^^".."["..'{$fnt psst, "white"|→}'.."] ("..'{$fnt psst, "white"|>}'..") - поворот на месте вправо^^".."["..'{$fnt psst, "magenta"|*}'.."] ("..'{$fnt psst, "white"|пробел}'..") - сброс груза^^".."["..'{$fnt psst, "red"|R}'.."] ("..'{$fnt psst, "white"|ввод}'..") - пуск программы^^".."["..'{$fnt psst, "cadetblue"|D}'.."] ("..'{$fnt psst, "white"|забой}'..") - удаление лишней команды^^");
 	end,
-};
+}:disable();
 
 menu {
 	nam = "inf2",
@@ -673,7 +681,7 @@ menu {
 	act = function()
 		return p ([[Последовательности команд можно объединять в процедуры, чтобы не задавать несколько раз одно и то же.]].."^^"..[[Процедура задаётся в столбце ]].."["..'{$fnt psst, "red"|0}'.."], ["..'{$fnt psst, "yellow"|1}'.."] или ["..'{$fnt psst, "blue"|2}'.."], а в нужном месте программы достаточно нажать клавишу "..'{$fnt psst, "white"|0}'..", "..'{$fnt psst, "white"|1}'.." или "..'{$fnt psst, "white"|2}'..".^^");
 	end,
-};
+}:disable();
 
 menu {
 	nam = "inf3",
@@ -682,7 +690,7 @@ menu {
 	act = function()
 		return p ([[Другой способ сокращения записи применяется к цепочкам одинаковых команд.]].."^^"..[[Нужно указать, сколько раз повторить необходимую команду. Такой приём называют циклом. Для этого используются клавиши ]].."["..'{$fnt psst, "lightgreen"|3}'.."], ".."["..'{$fnt psst, "lightgreen"|4}'.."], ".."["..'{$fnt psst, "lightgreen"|5}'.."], ".."["..'{$fnt psst, "lightgreen"|6}'.."], ^".."["..'{$fnt psst, "lightgreen"|7}'.."], ".."["..'{$fnt psst, "lightgreen"|8}'.."], ".."["..'{$fnt psst, "lightgreen"|9}'.."].^^"..[[Процедуры также можно повторять в цикле.]]);
 	end,
-};
+}:disable();
 
 menu {
 	nam = "ret",
@@ -700,7 +708,43 @@ menu {
 	act = function()
 		walk("Help");
 	end,
-};
+}:disable();
+
+menu {
+	nam = "anim_speed_x1",
+	disp = "Экономический^",
+	act = function()
+		pn ("Установлен экономический ход корабля");
+		repeat_local = 24;
+		step_local = 4;
+	end,
+}
+
+menu {
+	nam = "anim_speed_x2",
+	disp = "Полный^",
+	act = function()
+		pn ("Установлен полный ход корабля");
+		repeat_local = 12;
+		step_local = 8;
+	end,
+}
+
+menu {
+	nam = "anim_speed_x4",
+	disp = "Форсированный^",
+	act = function()
+		pn ("Установлен форсированный ход корабля");
+		repeat_local = 6;
+		step_local = 16;
+	end,
+}
+
+stat {
+	nam = "anim_speed_menu",
+	disp = "Ход корабля:^",
+	obj = {"anim_speed_x1", "anim_speed_x2", "anim_speed_x4"},
+}:disable();
 
 obj {
 	nam = "deck",
@@ -942,12 +986,9 @@ room {
 	nam = "instr_0",
 	disp = "***Инструкция***",
 	onenter = function()
-		if not have("hlp") then
-			table.insert(objs(me()), 1, _'hlp');
+		if disabled("hlp") then
+			 _'hlp':enable();
 		end
-		if not have("inf") then
-			place("inf", me());
-		end;
 	end,
 	pic = function()
 		return deep_sky;
@@ -961,8 +1002,8 @@ room {
 	disp = "Основы управления",
 	title = "***Управление***",
 	onenter = function()
-		if 	#objs(_'inf') < 4 then
-			table.insert(objs(_'inf'), 1, _'inf1');
+		if disabled("inf1") then
+			 _'inf1':enable();
 		end;
 	end,
 	pic = function()
@@ -979,11 +1020,11 @@ room {
 	title = "",
 	onenter = function(s)
 		_('hlp'):disable();
-	end;
+	end,
 	onexit = function(s)
 		mission_stage = "";
 		_('hlp'):enable();
-	end;
+	end,
 	pic = function()
 		return canvas;
 	end,
@@ -1018,7 +1059,9 @@ room {
 	disp = "Урок 2",
 	title = "***Процедуры***",
 	onenter = function()
-		table.insert(objs(_'inf'), 2, _'inf2');
+		if disabled("inf2") then
+			 _'inf2':enable();
+		end;
 	end,
 	pic = function()
 		return deep_sky;
@@ -1055,7 +1098,9 @@ room {
 	disp = "Урок 3",
 	title = "***Циклы***",
 	onenter = function()
-		table.insert(objs(_'inf'), 3, _'inf3');
+		if disabled("inf3") then
+			 _'inf3':enable();
+		end;
 	end,
 	pic = function()
 		return deep_sky;
@@ -1315,16 +1360,17 @@ room {
 room {
 	nam = "Help",
 	disp = "?",
-	title = "Справка",
+	title = "Информация:",
 	onenter = function(s)
 		_('hlp'):disable();
 		_('inf'):enable();
+		_('anim_speed_menu'):enable();
 
 	end;
 	onexit = function(s)
 		_('hlp'):enable();
 		_('inf'):disable();
-
+		_('anim_speed_menu'):disable();
 	end;
 	pic = function()
 		return deep_sky;

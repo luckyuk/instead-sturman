@@ -301,13 +301,14 @@ end;
 draw_space_a = function()
 	local ship_pos_x_a = -1 * ship_pos_x * 96 + 64 + 240;
 	local ship_pos_y_a = -1 * ship_pos_y * 96 + 64 + 240;
-	deep_sky:draw(canvas, 0, 0);
-	full_map:draw(canvas, ship_pos_x_a, ship_pos_y_a);
-	ship_a:draw(canvas, 240, 240);
+	deep_sky:copy(canvas, 0, 0);
+	full_map:copy(canvas, ship_pos_x_a, ship_pos_y_a);
+	ship_a:copy(canvas, 240, 240);
 end;
 
 play_animation = function()
-	local pos = animation_counter * 4;
+	print(animation_counter)
+	local pos = animation_counter * step_local;
 	local ship_pos_x_a = 0;
 	local ship_pos_y_a = 0;
 	if ship_orientation == "up" then

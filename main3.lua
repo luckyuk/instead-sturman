@@ -1,5 +1,5 @@
 -- $Name: Штурман$
--- $Version: 0.6$
+-- $Version: 0.6.1$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
 
@@ -26,6 +26,8 @@ global{
 	active_register = 1;
 	repeat_local = 24;
 	step_local = 4;
+	animation_repeats = 24;
+	animation_step = 4;
 	animation_counter = 24;
 	shift_register_P = 0;
 	lim_steps = 256;
@@ -218,8 +220,8 @@ game.timer = function(s)
 		halt();
 		return;
 	elseif #main_stack > 0 then
---		repeat_local = animation_repeats;
---		step_local = animation_step;
+		repeat_local = animation_repeats;
+		step_local = animation_step;
 		while forwerts() do
 		-- nothing to do
 		end
@@ -712,31 +714,46 @@ menu {
 
 menu {
 	nam = "anim_speed_x1",
-	disp = "Экономический^",
-	act = function()
-		pn ("Установлен экономический ход корабля");
-		repeat_local = 24;
-		step_local = 4;
+	disp = "Экономный <<^",
+	act = function(s)
+		s.disp = "Экономный <<^";
+		_"anim_speed_x2".disp = "Полный^";
+		_"anim_speed_x4".disp = "Форсаж^";
+--		pn ("Установлен экономический ход корабля");
+		animation_repeats = 24;
+		animation_step = 4;
+--		repeat_local = 24;
+--		step_local = 4;
 	end,
 }
 
 menu {
 	nam = "anim_speed_x2",
 	disp = "Полный^",
-	act = function()
-		pn ("Установлен полный ход корабля");
-		repeat_local = 12;
-		step_local = 8;
+	act = function(s)
+		s.disp = "Полный <<^";
+		_"anim_speed_x1".disp = "Экономный^";
+		_"anim_speed_x4".disp = "Форсаж^";
+--		pn ("Установлен полный ход корабля");
+		animation_repeats = 12;
+		animation_step = 8;
+--		repeat_local = 12;
+--		step_local = 8;
 	end,
 }
 
 menu {
 	nam = "anim_speed_x4",
-	disp = "Форсированный^",
-	act = function()
-		pn ("Установлен форсированный ход корабля");
-		repeat_local = 6;
-		step_local = 16;
+	disp = "Форсаж^",
+	act = function(s)
+		s.disp = "Форсаж <<^";
+		_"anim_speed_x1".disp = "Экономный^";
+		_"anim_speed_x2".disp = "Полный^";
+--		pn ("Установлен форсированный ход корабля");
+		animation_repeats = 6;
+		animation_step = 16;
+--		repeat_local = 6;
+--		step_local = 16;
 	end,
 }
 
@@ -1020,10 +1037,12 @@ room {
 	title = "",
 	onenter = function(s)
 		_('hlp'):disable();
+		_('anim_speed_menu'):enable();
 	end,
 	onexit = function(s)
 		mission_stage = "";
 		_('hlp'):enable();
+		_('anim_speed_menu'):disable();
 	end,
 	pic = function()
 		return canvas;
@@ -1364,13 +1383,10 @@ room {
 	onenter = function(s)
 		_('hlp'):disable();
 		_('inf'):enable();
-		_('anim_speed_menu'):enable();
-
 	end;
 	onexit = function(s)
 		_('hlp'):enable();
 		_('inf'):disable();
-		_('anim_speed_menu'):disable();
 	end;
 	pic = function()
 		return deep_sky;

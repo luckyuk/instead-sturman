@@ -307,7 +307,6 @@ draw_space_a = function()
 end;
 
 play_animation = function()
-	print(animation_counter)
 	local pos = animation_counter * step_local;
 	local ship_pos_x_a = 0;
 	local ship_pos_y_a = 0;

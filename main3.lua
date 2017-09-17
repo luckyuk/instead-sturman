@@ -1,5 +1,5 @@
 -- $Name: Штурман$
--- $Version: 0.6.1$
+-- $Version: 0.6.2$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
 
@@ -1065,6 +1065,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1104,6 +1105,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1143,6 +1145,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1177,6 +1180,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1200,6 +1204,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1223,6 +1228,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1246,6 +1252,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1269,6 +1276,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1292,6 +1300,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();
@@ -1315,6 +1324,7 @@ room {
 		clear_slotter();
 		s.cur_map();
 		draw_map();
+		draw_map_a();
 		draw_space();
 		ship_start_pos();
 		s:pic();

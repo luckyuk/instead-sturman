@@ -9,7 +9,6 @@ require "click"
 require "fonts"
 require "timer"
 require "snd"
-require "dbg"
 
 dofile "interpreter.lua"
 dofile "maps.lua"

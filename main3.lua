@@ -1,5 +1,5 @@
 -- $Name: Штурман$
--- $Version: 0.6.3$
+-- $Version: 0.6.4$
 -- $Autor: kerbal$
 -- $Info: Ремейк игры "Штурман" Олега Шамшуры для MSX. Большое спасибо gl00my, Minoru и spline за помощь в создании ремейка. Огромное спасибо Олегу Шамшуре за то, что придумал эту замечательную игру!$
 
@@ -9,6 +9,7 @@ require "click"
 require "fonts"
 require "timer"
 require "snd"
+require "dbg"
 
 dofile "interpreter.lua"
 dofile "maps.lua"
@@ -1002,6 +1003,14 @@ room {
 room {
 	nam = "instr_0",
 	disp = "***Инструкция***",
+	{
+		dsc_txt = "^"..[[Вы - курсант лётной академии. Ваша задача - освоить прокладку курса с помощью новейшего комплекса "Автопилот Высшего Сорта". Сокращённо - АВ0Сь.]].."^^"..[[Проложите курс так, чтобы корабль смог избежать неприятностей и доставил груз на все базы. Корабль всегда стартует с посадочной площадки.]],
+		letter_mark = 0,
+		disp_text = [[]],
+	},
+	enter = function(s)
+		timer:set(30);
+	end,
 	onenter = function()
 		if disabled("hlp") then
 			 _'hlp':enable();
@@ -1010,7 +1019,21 @@ room {
 	pic = function()
 		return deep_sky;
 	end,
-	dsc = "^"..[[Вы - курсант лётной академии. Ваша задача - освоить прокладку курса с помощью новейшего комплекса "Автопилот Высшего Сорта". Сокращённо - АВ0Сь.]].."^^"..[[Проложите курс так, чтобы корабль смог избежать неприятностей и доставил груз на все базы. Корабль всегда стартует с посадочной площадки.]],
+	dsc = function(s)
+		if s.letter_mark < string.len (s.dsc_txt) then
+			s.letter_mark = s.letter_mark + 1;
+			s.disp_text = s.disp_text..string.sub (s.dsc_txt, s.letter_mark, s.letter_mark)
+			p (s.disp_text);
+		else
+			p (s.disp_text);
+			ways():open();
+			timer:stop();
+			
+		end;
+	end,
+	timer = function(s)
+		s:dsc();
+	end,
 	way = {"instr_1"},
 }
 
@@ -1018,16 +1041,37 @@ room {
 	nam = "instr_1",
 	disp = "Основы управления",
 	title = "***Управление***",
+	{
+		dsc_txt = "^"..[[Поведение корабля задаёт программа.
+	Она состоит из команд и пишется в стеке ]].."["..'{$fnt psst, "magenta"|P}'.."]^^".."Основные команды:^^".."["..'{$fnt psst, "white"|↑}'.."] ("..'{$fnt psst, "white"|+}'..") - перелет в следующий квадрат по курсу^^".."["..'{$fnt psst, "white"|←}'.."] ("..'{$fnt psst, "white"|<}'..") - поворот на месте влево^^".."["..'{$fnt psst, "white"|→}'.."] ("..'{$fnt psst, "white"|>}'..") - поворот на месте вправо^^".."["..'{$fnt psst, "magenta"|*}'.."] ("..'{$fnt psst, "white"|пробел}'..") - сброс груза^^".."["..'{$fnt psst, "red"|R}'.."] ("..'{$fnt psst, "white"|ввод}'..") - пуск программы^^".."["..'{$fnt psst, "cadetblue"|D}'.."] ("..'{$fnt psst, "white"|забой}'..") - удаление лишней команды",
+		letter_mark = 0,
+		disp_text = [[]],
+	},
+	enter = function(s)
+		timer:set(30);
+	end;
 	onenter = function()
 		if disabled("inf1") then
 			 _'inf1':enable();
 		end;
-	end,
-	pic = function()
+	end,	pic = function()
 		return deep_sky;
 	end,
-	dsc = "^"..[[Поведение корабля задаёт программа.
-	Она состоит из команд и пишется в стеке ]].."["..'{$fnt psst, "magenta"|P}'.."]^^".."Основные команды:^^".."["..'{$fnt psst, "white"|↑}'.."] ("..'{$fnt psst, "white"|+}'..") - перелет в следующий квадрат по курсу^^".."["..'{$fnt psst, "white"|←}'.."] ("..'{$fnt psst, "white"|<}'..") - поворот на месте влево^^".."["..'{$fnt psst, "white"|→}'.."] ("..'{$fnt psst, "white"|>}'..") - поворот на месте вправо^^".."["..'{$fnt psst, "magenta"|*}'.."] ("..'{$fnt psst, "white"|пробел}'..") - сброс груза^^".."["..'{$fnt psst, "red"|R}'.."] ("..'{$fnt psst, "white"|ввод}'..") - пуск программы^^".."["..'{$fnt psst, "cadetblue"|D}'.."] ("..'{$fnt psst, "white"|забой}'..") - удаление лишней команды^^",
+	dsc = function(s)
+		if s.letter_mark < string.len (s.dsc_txt) then
+			s.letter_mark = s.letter_mark + 1;
+			s.disp_text = s.disp_text..string.sub (s.dsc_txt, s.letter_mark, s.letter_mark)
+			p (s.disp_text);
+		else
+			p (s.disp_text);
+			ways():open();
+			timer:stop();
+			
+		end;
+	end,
+	timer = function(s)
+		s:dsc();
+	end,
 	way = {"lesson_1"},
 }
 
@@ -1077,7 +1121,15 @@ room {
 room {
 	nam = "instr_2",
 	disp = "Урок 2",
+	{
+		dsc_txt = "^"..[[Последовательности команд можно объединять в процедуры, чтобы не задавать несколько раз одно и то же.]].."^^"..[[Процедура задаётся в столбце ]].."["..'{$fnt psst, "red"|0}'.."], ".."["..'{$fnt psst, "yellow"|1}'.."] или ".."["..'{$fnt psst, "blue"|2}'.."], а в нужном месте программы достаточно нажать клавишу {$fnt psst, 'white'|0}, {$fnt psst, 'white'|1} или {$fnt psst, 'white'|2}.",
+		letter_mark = 0,
+		disp_text = [[]],
+	},
 	title = "***Процедуры***",
+	enter = function(s)
+		timer:set(30);
+	end;
 	onenter = function()
 		if disabled("inf2") then
 			 _'inf2':enable();
@@ -1086,7 +1138,21 @@ room {
 	pic = function()
 		return deep_sky;
 	end,
-	dsc = "^"..[[Последовательности команд можно объединять в процедуры, чтобы не задавать несколько раз одно и то же.]].."^^"..[[Процедура задаётся в столбце ]].."["..'{$fnt psst, "red"|0}'.."], ".."["..'{$fnt psst, "yellow"|1}'.."] или ".."["..'{$fnt psst, "blue"|2}'.."], а в нужном месте программы достаточно нажать клавишу {$fnt psst, 'white'|0}, {$fnt psst, 'white'|1} или {$fnt psst, 'white'|2}.",
+	dsc = function(s)
+		if s.letter_mark < string.len (s.dsc_txt) then
+			s.letter_mark = s.letter_mark + 1;
+			s.disp_text = s.disp_text..string.sub (s.dsc_txt, s.letter_mark, s.letter_mark)
+			p (s.disp_text);
+		else
+			p (s.disp_text);
+			ways():open();
+			timer:stop();
+			
+		end;
+	end,
+	timer = function(s)
+		s:dsc();
+	end,
 	way = {"lesson_2"},
 }
 
@@ -1117,7 +1183,15 @@ room {
 room {
 	nam = "instr_3",
 	disp = "Урок 3",
+	{
+		dsc_txt = "^"..[[Другой способ сокращения записи применяется к цепочкам одинаковых команд.]].."^^"..[[Нужно указать, сколько раз повторить необходимую команду. Такой приём называют циклом. Для этого используются клавиши ]].."["..'{$fnt psst, "lightgreen"|3}'.."], ".."["..'{$fnt psst, "lightgreen"|4}'.."], ".."["..'{$fnt psst, "lightgreen"|5}'.."], ".."["..'{$fnt psst, "lightgreen"|6}'.."], ^".."["..'{$fnt psst, "lightgreen"|7}'.."], ".."["..'{$fnt psst, "lightgreen"|8}'.."], ".."["..'{$fnt psst, "lightgreen"|9}'.."].",
+		letter_mark = 0,
+		disp_text = [[]],
+	},
 	title = "***Циклы***",
+	enter = function(s)
+		timer:set(30);
+	end;
 	onenter = function()
 		if disabled("inf3") then
 			 _'inf3':enable();
@@ -1126,7 +1200,21 @@ room {
 	pic = function()
 		return deep_sky;
 	end,
-	dsc = "^"..[[Другой способ сокращения записи применяется к цепочкам одинаковых команд.]].."^^"..[[Нужно указать, сколько раз повторить необходимую команду. Такой приём называют циклом. Для этого используются клавиши ]].."["..'{$fnt psst, "lightgreen"|3}'.."], ".."["..'{$fnt psst, "lightgreen"|4}'.."], ".."["..'{$fnt psst, "lightgreen"|5}'.."], ".."["..'{$fnt psst, "lightgreen"|6}'.."], ^".."["..'{$fnt psst, "lightgreen"|7}'.."], ".."["..'{$fnt psst, "lightgreen"|8}'.."], ".."["..'{$fnt psst, "lightgreen"|9}'.."].",
+	dsc = function(s)
+		if s.letter_mark < string.len (s.dsc_txt) then
+			s.letter_mark = s.letter_mark + 1;
+			s.disp_text = s.disp_text..string.sub (s.dsc_txt, s.letter_mark, s.letter_mark)
+			p (s.disp_text);
+		else
+			p (s.disp_text);
+			ways():open();
+			timer:stop();
+			
+		end;
+	end,
+	timer = function(s)
+		s:dsc();
+	end,
 	way = {"lesson_3"},
 }
 
@@ -1157,11 +1245,33 @@ room {
 room {
 	nam = "instr_4",
 	disp = "Урок 4",
+	{
+		dsc_txt = "^"..[[Процедуры также можно повторять в цикле.]],
+		letter_mark = 0,
+		disp_text = [[]],
+	},
 	title = "***Циклы процедур***",
+	enter = function(s)
+		timer:set(30);
+	end;
 	pic = function()
 		return deep_sky;
 	end,
-	dsc = "^"..[[Процедуры также можно повторять в цикле.]],
+	dsc = function(s)
+		if s.letter_mark < string.len (s.dsc_txt) then
+			s.letter_mark = s.letter_mark + 1;
+			s.disp_text = s.disp_text..string.sub (s.dsc_txt, s.letter_mark, s.letter_mark)
+			p (s.disp_text);
+		else
+			p (s.disp_text);
+			ways():open();
+			timer:stop();
+			
+		end;
+	end,
+	timer = function(s)
+		s:dsc();
+	end,
 	way = {"lesson_4"},
 }
 

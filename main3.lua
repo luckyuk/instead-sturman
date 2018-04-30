@@ -1,5 +1,5 @@
 -- $Name: Shturman$
--- $Version: 0.6.4$
+-- $Version: 0.6.5$
 -- $Autor: kerbal$
 -- $Info: The remake of the game "Штурман" by Oleg Shamshura for MSX. Thank you very much to gl00my, Minoru and spline for help in the making a this remake. Thank you very much to Oleg Shamshura for having invented this wonderful game!$
 

@@ -938,26 +938,35 @@ room {
 	},
 	timer = function(s)
 		if s.ship_x < 526 then
-			if s.ship_x > 140 then
-				s.autor = "L";
+			if s.ship_x > 95 then
+				s.autor = "b";
 			end;
-			if s.ship_x > 170 then
-				s.autor = "Lu";
+			if s.ship_x > 120 then
+				s.autor = "by";
 			end;
-			if s.ship_x > 200 then
-				s.autor = "Luc";
+			if s.ship_x > 155 then
+				s.autor = "by ";
 			end;
-			if s.ship_x > 230 then
-				s.autor = "Luck";
+			if s.ship_x > 185 then
+				s.autor = "by L";
 			end;
-			if s.ship_x > 260 then
-				s.autor = "Lucky";
+			if s.ship_x > 215 then
+				s.autor = "by Lu";
 			end;
-			if s.ship_x > 290 then
-				s.autor = "Luckyu";
+			if s.ship_x > 245 then
+				s.autor = "by Luc";
 			end;
-			if s.ship_x > 320 then
-				s.autor = "Luckyuk";
+			if s.ship_x > 275 then
+				s.autor = "by Luck";
+			end;
+			if s.ship_x > 305 then
+				s.autor = "by Lucky";
+			end;
+			if s.ship_x > 335 then
+				s.autor = "by Luckyu";
+			end;
+			if s.ship_x > 365 then
+				s.autor = "by Luckyuk";
 			end;
 			s.ship_x = s.ship_x + 8;
 			s:pic();
@@ -975,8 +984,8 @@ room {
 		local t = sprite.fnt('themes/default/PressStart2P.ttf', 30);
 		deep_sky:copy(canvas, 0, 0);
 		intro_a:draw(canvas, 0, 128);
-		t:text(s.autor, "yellow"):draw(canvas, 144, 380);
-		f:text(s.autor, "white"):draw(0, 0, 256, 15, canvas, 144, 380);
+		t:text(s.autor, "yellow"):draw(canvas, 99, 380);
+		f:text(s.autor, "white"):draw(0, 0, 256, 15, canvas, 99, 380);
 		ship:copy(canvas, s.ship_x, s.ship_y);
 		return canvas;
 	end,

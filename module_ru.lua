@@ -768,7 +768,7 @@ obj {
 	nam = "deck",
 	dsc = function(s)
 		local body = "";
-		body = "<c>".."-{[P]|["..'{$fnt psst, "magenta"|P}'.."]}-".."-{[0]|["..'{$fnt psst, "red"|0}'.."]}-".."-{[1]|["..'{$fnt psst, "yellow"|1}'.."]}-".."-{[2]|["..'{$fnt psst, "blue"|2}'.."]}-^";
+		body = "<c>".."|{[P]|["..'{$fnt psst, "magenta"|P}'.."]}|".."|{[0]|["..'{$fnt psst, "red"|0}'.."]}|".."|{[1]|["..'{$fnt psst, "yellow"|1}'.."]}|".."|{[2]|["..'{$fnt psst, "blue"|2}'.."]}|^";
 		for j = 1, 21 do
 			for i = 1, 4 do
 				if i == 1 then

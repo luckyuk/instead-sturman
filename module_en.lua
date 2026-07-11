@@ -983,7 +983,7 @@ room {
 		local f = sprite.fnt('themes/default/PressStart2P.ttf', 30);
 		local t = sprite.fnt('themes/default/PressStart2P.ttf', 30);
 		deep_sky:copy(canvas, 0, 0);
-		intro_a:draw(canvas, 0, 128);
+		intro_b:draw(canvas, 0, 128);
 		t:text(s.autor, "yellow"):draw(canvas, 99, 380);
 		f:text(s.autor, "white"):draw(0, 0, 256, 15, canvas, 99, 380);
 		ship:copy(canvas, s.ship_x, s.ship_y);

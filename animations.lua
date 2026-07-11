@@ -89,6 +89,7 @@ declare {
 	h_way_a = sprite.new "box:96x96, black",
 	w_way_a = sprite.new "box:96x96, black",
 	intro_a = sprite.new "box:512x256",
+	intro_b = sprite.new "box:512x256",
 	finish_a = sprite.new "box:512x192",
 	--
 	spr_ship = false,
@@ -222,6 +223,25 @@ intro = {
 	{a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0},
 }
 
+intro_en = {
+	{e1, e2, l3, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, e2, l3, a0, a0, a0, a0, a0, e1, l3, a0, a0, a0, a0},
+	{e3, e4, e3, e4, l3, a0, a0, a0, e3, e4, l3, a0, a0, a0, a0, a0, a0, a0, e3, e4, e3, e4, e3, l3, a0, a0, e3, e4, e3, e4, l3, a0},
+	{e1, e2, v1, e2, e1, l3, a0, e2, v2, e2, e1, e2, l3, e2, e1, l3, a0, e2, e1, e2, v1, e2, e1, e2, e1, e2, e1, v1, e1, e2, e1, e2},
+	{e3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, v1, e3, e4, e3, e4, l3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, e4, e3, e4},
+	{e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2},
+	{e3, u2, u2, u2, e3, u2, u2, u2, e3, u2, e3, u2, e3, u2, u2, e4, e3, u2, e3, e4, e3, u2, e3, e4, u2, u2, e3, u2, e3, e4, u2, e4},
+	{e1, u2, e1, e2, e1, e2, u2, e2, e1, u2, e1, u2, e1, u2, e1, u2, e1, u2, u2, e2, u2, u2, e1, u2, e1, u2, e1, u2, e1, e2, u2, e2},
+	{e3, u2, u2, e4, e3, e4, u2, e4, e3, u2, e3, u2, e3, u2, u2, e4, e3, u2, e3, u2, e3, u2, e3, u2, e3, u2, e3, u2, u2, e4, u2, e4},
+	{e1, e2, e1, u2, e1, e2, u2, e2, e1, u2, e1, u2, e1, u2, e1, u2, e1, u2, e1, e2, e1, u2, e1, u2, u2, u2, e1, u2, e1, u2, u2, e2},
+	{e3, u2, u2, u2, e3, e4, u2, e4, e3, e4, u2, e4, e3, u2, e3, u2, e3, u2, e3, e4, e3, u2, e3, u2, e3, u2, e3, u2, e3, e4, u2, e4},
+	{e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, v2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2, e1, e2},
+	{e3, e4, e3, e4, l2, e4, e3, e4, v1, e4, e3, e4, e3, e4, l2, u1, e3, e4, e3, l2, u1, e4, v2, e4, e3, e4, e3, e4, e3, e4, e3, e4},
+	{u1, e2, l2, u1, l1, u3, e1, e2, e1, e2, l2, u1, u1, u1, l1, a0, u3, e2, l2, l1, a0, u3, u1, u1, u1, e2, e1, v1, e1, e2, e1, e2},
+	{a0, u3, l1, a0, a0, a0, u3, e4, l2, u1, l1, a0, a0, a0, a0, a0, a0, u3, l1, a0, a0, a0, a0, a0, a0, u3, e3, e4, e3, l2, u1, u1},
+	{a0, a0, a0, a0, a0, a0, a0, u3, l1, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, u3, u1, u1, l1, a0, a0},
+	{a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0},
+}
+
 finish = {
 	{a0, a0, a0, a0, a0, a0, a0, a0, a0, e2, l3, e2, e1, e2, l3, a0, a0, a0, a0, e2, e1, l3, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0,},
 	{a0, a0, a0, a0, a0, a0, a0, a0, e3, e4, e3, e4, e3, v1, l0, a0, a0, a0, e3, e4, e3, e4, e3, l3, a0, a0, a0, a0, a0, a0, a0, a0,},
@@ -260,6 +280,7 @@ make_all_sprites = function()
 	make_a_sprite(w_way_a, spr_vert);
 	make_a_sprite(h_way_a, spr_hor);
 	make_a_sprite(intro_a, intro);
+	make_a_sprite(intro_b, intro_en);
 	make_a_sprite(finish_a, finish);
 end;
 

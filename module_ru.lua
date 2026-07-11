@@ -968,7 +968,7 @@ room {
 		end;
 	end,
 	onenter = function(s)
-		timer:set(30);
+		timer:set(100);
 	end;
 	pic = function(s)
 		local f = sprite.fnt('themes/default/PressStart2P.ttf', 30);

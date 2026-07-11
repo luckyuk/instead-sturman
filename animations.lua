@@ -105,6 +105,7 @@ declare {
 	spr_vert = false,
 	spr_hor = false,
 	intro = false,
+	intro_en = false,
 	finish = false,
 };
 
